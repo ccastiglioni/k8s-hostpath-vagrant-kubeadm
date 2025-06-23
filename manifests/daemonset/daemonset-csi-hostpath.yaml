@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: csi-hostpath-plugin
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: csi-hostpath
+  template:
+    metadata:
+      labels:
+        app: csi-hostpath
+    spec:
+      containers:
+      - name: hostpath-driver
+        image: k8s.gcr.io/sig-storage/hostpathplugin:v1.8.0
+        args:
+          - "--v=5"
+          - "--nodeid=$(NODE_ID)"
+          - "--endpoint=$(CSI_ENDPOINT)"
+        env:
+        - name: NODE_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: CSI_ENDPOINT
+          value: unix:///csi/csi.sock
+        volumeMounts:
+        - mountPath: /csi
+          name: socket-dir
+        - mountPath: /var/lib/kubelet/plugins/kubernetes.io/csi
+          name: plugin-dir
+        - mountPath: /mnt/data
+          name: hostpath-vol
+      volumes:
+      - name: socket-dir
+        hostPath:
+          path: /var/lib/kubelet/plugins/csi-hostpath
+          type: DirectoryOrCreate
+      - name: plugin-dir
+        hostPath:
+          path: /var/lib/kubelet/plugins/kubernetes.io/csi
+          type: DirectoryOrCreate
+      - name: hostpath-vol
+        hostPath:
+          path: /mnt/data
+          type: DirectoryOrCreate

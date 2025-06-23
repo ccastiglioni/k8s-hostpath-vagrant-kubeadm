@@ -1,0 +1,18 @@
+✅ manifests/deployment/deployment.yaml
+O que é?
+👉 Um Deployment é uma forma de dizer ao Kubernetes:
+Cria um Deployment com réplicas de um aplicativo stateless. No teu caso, é um Nginx.
+"Mantenha sempre X cópias deste Pod rodando, e se der problema, recrie automaticamente."
+
+Neste exemplo:
+👉 Você vai rodar 2 réplicas de um container NGINX, ouvindo na porta 80.
+
+Importância prática:
+Controla a criação de múltiplos pods, garante auto-redeploy se algum pod cair, e faz load balancing interno entre réplicas.
+👉 É ideal para aplicações stateless, como APIs, frontends web etc.
+
+Quando é indispensável:
+👉 Sempre que você quiser escalar e manter múltiplas réplicas de aplicações sem estado (stateless).
+👉 Exemplo: Web servers (nginx, frontend React etc).
+
+👉 Sem ele: Teria que criar pods manualmente e gerenciar tudo na mão

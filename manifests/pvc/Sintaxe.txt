@@ -1,0 +1,18 @@
+✅  manifests/pvc/pvc-hostpath.yaml
+
+O que é?
+👉 Um PersistentVolumeClaim (PVC) é um pedido de armazenamento persistente por um Pod.
+Cria um PersistentVolumeClaim (PVC) chamado pvc-hostpath.
+
+Neste caso:
+👉 Você está pedindo 1Gi de espaço, usando o StorageClass hostpath.
+
+Importância prática:
+👉 Um Deployment ou StatefulSet que precisar de disco vai apontar para esse PVC, garantindo que os dados não sumam se o Pod for reiniciado.
+Solicita ao Kubernetes um volume persistente.
+Exemplo: Um banco de dados (Mongo, MySQL etc) precisa salvar dados.
+Esse PVC vai "reservar" um espaço de storage usando a StorageClass hostpath.
+
+Quando é indispensável:
+👉 Sempre que um Pod (principalmente banco de dados ou StatefulSet) precisa de disco permanente.
+👉 Sem ele: O pod que depender desse volume nem sobe (fica em Pending igual seu Mongo agora).

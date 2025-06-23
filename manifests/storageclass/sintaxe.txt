@@ -1,0 +1,20 @@
+✅  manifests/storageclass/storageclass-hostpath.yaml
+O que é?
+👉 Um StorageClass define como o Kubernetes vai provisionar volumes de armazenamento para os Pods.
+Define uma StorageClass chamada hostpath.
+
+Neste caso:
+👉 A gente está criando uma StorageClass chamada hostpath, que diz ao Kubernetes:
+
+"Quando alguém pedir um volume com esse StorageClass, o volume vai ser um diretório local dentro do Node (HostPath), e não um disco externo."
+
+Importância prática:
+👉 Serve para o Kubernetes saber como criar volumes físicos quando um Pod pedir.
+
+Pra que serve:
+Diz ao Kubernetes como deve ser provisionado o armazenamento persistente no cluster. No seu caso, o storage vai criar diretórios no próprio host (tipo /mnt/data), via o hostPath provisioner.
+
+Quando é indispensável:
+👉 Sempre que você for usar PersistentVolumeClaims (PVCs) que dependem de uma StorageClass.
+👉 Sem ela: seus PVCs ficam pendentes com erro tipo:
+no storage class found for pvc

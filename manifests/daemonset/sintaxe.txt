@@ -1,0 +1,18 @@
+✅ manifests/daemonset/daemonset-csi-hostpath.yaml
+O que é?
+👉 Um DaemonSet garante que haja uma cópia do pod rodando em cada Node do cluster.
+Cria um DaemonSet que instala o CSI HostPath Driver nos nodes.
+
+Para que serve neste caso?
+👉 Ele instala um plugin de armazenamento CSI chamado hostpath, 
+que permite ao Kubernetes criar volumes persistentes em diretórios locais do Node (/mnt/data por exemplo).
+👉 Ele instala um plugin de armazenamento de LOGs(fluentd)
+
+Importância prática:
+👉 Sem isso, os Pods que pedirem volumes persistentes com o
+ StorageClass hostpath não conseguiriam montar os discos.
+
+Quando é indispensável:
+👉 Obrigatório em clusters pequenos (como em Vagrant, Minikube ou Kind) 
+quando você usa StorageClass tipo hostPath.
+👉 Sem ele: O Kubernetes até aceita a StorageClass e o PVC, mas não consegue criar o volume de verdade no disco.

@@ -1,0 +1,26 @@
+✅  manifests/statefulset/statefulset.yaml
+O que é?
+👉 Um StatefulSet é como um Deployment, mas voltado para aplicações que precisam de identidade fixa e volume próprio, como bancos de dados.
+
+Neste exemplo:
+👉 Você vai subir um MongoDB replicado com 3 réplicas.
+👉 Cada réplica vai ter um volume separado e fixo, provisionado com a StorageClass hostpath e com 5Gi de armazenamento.
+
+Importância prática:
+👉 Serve para garantir persistência de dados, ordem de inicialização, e nomes DNS fixos entre os Pods, que o MongoDB precisa para formar um replicaset.
+É um controlador de pods que precisam de identidade fixa + storage fixo.
+Exemplo: MongoDB, MySQL Cluster, Redis Cluster etc.
+
+✔️ Na prática, o Kubernetes vai:
+    1- Ler a StorageClass (hostpath)
+    2- Chamar o DaemonSet (provisionador HostPath)
+    3- Criar os diretórios /mnt/data/... nos Nodes
+
+Quando é indispensável:
+👉 Sempre que sua aplicação precisar de:
+
+Nome fixo de pods (ex: mongo-0, mongo-1, mongo-2)
+Volume persistente por pod
+Ordem de inicialização dos pods
+
+👉 Sem ele: Não teria como o Kubernetes manter os dados de cada instância de banco separada.
